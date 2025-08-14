@@ -12,7 +12,7 @@ export const mastra = new Mastra({
   agents: { weatherAgent, docsAgent },
   storage: new LibSQLStore({
     // For Cloudflare Workers, use memory storage or remote LibSQL database
-    url: "libsql://:memory:",
+    url: ":memory:",
   }),
   logger: new PinoLogger({
     name: 'Mastra',

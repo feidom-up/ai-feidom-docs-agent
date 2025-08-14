@@ -31,7 +31,7 @@ export const docsAgent = new Agent({
   tools: { docsTool },
   memory: new Memory({
     storage: new LibSQLStore({
-      url: 'libsql://:memory:', // Use memory storage for Cloudflare Workers
+      url: ':memory:',
     }),
   }),
 }); 

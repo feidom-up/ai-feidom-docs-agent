@@ -24,7 +24,7 @@ export const weatherAgent = new Agent({
   tools: { weatherTool },
   memory: new Memory({
     storage: new LibSQLStore({
-      url: 'libsql://:memory:', // Use memory storage for Cloudflare Workers
+      url: ':memory:',
     }),
   }),
 });
