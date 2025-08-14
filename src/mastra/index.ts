@@ -6,7 +6,7 @@ import { weatherWorkflow } from './workflows/weather-workflow';
 import { weatherAgent } from './agents/weather-agent';
 import { docsWorkflow } from './workflows/docs-workflow';
 import { docsAgent } from './agents/docs-agent';
-
+import { CloudflareDeployer } from "@mastra/deployer-cloudflare";
 export const mastra = new Mastra({
   workflows: { weatherWorkflow, docsWorkflow },
   agents: { weatherAgent, docsAgent },
@@ -17,5 +17,29 @@ export const mastra = new Mastra({
   logger: new PinoLogger({
     name: 'Mastra',
     level: 'info',
+  }),
+  deployer: new CloudflareDeployer({
+    projectName: "ai-feidom-docs-agent",
+    routes: [
+      {
+        pattern: "wf-bond.us/*",
+        zone_name: "wf-bond.us",
+        custom_domain: true,
+      },
+    ],
+    workerNamespace: "ai-feidom-docs-agent",
+    d1Databases: [
+      {
+        binding: "feidom-docs-agent",
+        database_name: "feidom-docs-agent",
+        database_id: "feidom-docs-agent",
+      },
+    ],
+    kvNamespaces: [
+      {
+        binding: "feidom-docs-agent",
+        id: "feidom-docs-agent",
+      },
+    ],
   }),
 });
