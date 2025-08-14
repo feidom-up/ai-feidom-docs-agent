@@ -31,7 +31,7 @@ export const docsAgent = new Agent({
   tools: { docsTool },
   memory: new Memory({
     storage: new LibSQLStore({
-      url: 'file:../mastra.db', // path is relative to the .mastra/output directory
+      url: 'libsql://:memory:', // Use memory storage for Cloudflare Workers
     }),
   }),
 }); 
