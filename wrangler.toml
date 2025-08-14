@@ -1,5 +1,5 @@
 name = "ai-feidom-docs-agent"
-main = ".mastra/output/index.mjs"
+main = "src/worker.js"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
@@ -25,10 +25,4 @@ NODE_ENV = "production"
 # [[d1_databases]]
 # binding = "DB"
 # database_name = "my-database"
-# database_id = "your-database-id"
-
-[env.production]
-name = "ai-feidom-docs-agent-prod"
-
-[env.staging]
-name = "ai-feidom-docs-agent-staging" 
+# database_id = "your-database-id" 

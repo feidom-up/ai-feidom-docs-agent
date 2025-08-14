@@ -1,77 +1,42 @@
 # AI Feidom Docs Agent
 
-一个基于 Mastra 框架的 AI 文档分析代理，可以部署到 Cloudflare Worker。
+一个基于 Mastra 框架的 AI 文档分析代理，部署到 Cloudflare Workers。
 
-## 🚀 快速部署到 Cloudflare Worker
+## 🚀 部署
 
-### 方法一：使用部署脚本（推荐）
+本项目通过 Cloudflare Workers admin portal 进行 GitHub 自动化 CI/CD 部署。
 
-```bash
-# 给脚本执行权限
-chmod +x deploy.sh
+### 部署步骤
 
-# 运行部署脚本
-./deploy.sh
-```
+1. **连接 GitHub 仓库**
+   - 在 [Cloudflare Workers 控制台](https://dash.cloudflare.com/) 创建新项目
+   - 连接你的 GitHub 仓库
 
-### 方法二：手动部署
+2. **配置构建设置**
+   - **构建命令**: `npm run build`
+   - **输出目录**: `.mastra/output`
+   - **入口文件**: `src/worker.js`
 
-1. **安装 Wrangler CLI**
-```bash
-npm install -g wrangler
-```
+3. **设置环境变量**
+   - `OPENAI_API_KEY`: OpenAI API 密钥
+   - `NODE_ENV`: `production`
 
-2. **登录 Cloudflare**
-```bash
-wrangler login
-```
-
-3. **安装依赖**
-```bash
-npm install
-```
-
-4. **构建项目**
-```bash
-npm run build
-```
-
-5. **部署到 Cloudflare Worker**
-```bash
-wrangler deploy
-```
+4. **自动部署**
+   - 推送到 GitHub 主分支自动触发部署
 
 ## 📁 项目结构
 
 ```
 ai-feidom-docs-agent/
 ├── src/
+│   ├── worker.js           # Cloudflare Workers 入口文件
 │   └── mastra/
-│       ├── agents/          # AI 代理
-│       ├── tools/           # 工具
-│       ├── workflows/       # 工作流
-│       └── index.ts         # Mastra 配置
-├── wrangler.toml           # Cloudflare Worker 配置
-├── package.json            # 项目依赖
-├── deploy.sh              # 部署脚本
-└── DEPLOYMENT.md          # 详细部署说明
-```
-
-## 🔧 配置
-
-### 环境变量
-
-如果需要设置环境变量（如 OpenAI API Key），可以使用：
-
-```bash
-wrangler secret put OPENAI_API_KEY
-```
-
-或在 `wrangler.toml` 中配置：
-
-```toml
-[vars]
-OPENAI_API_KEY = "your-api-key"
+│       ├── agents/         # AI 代理
+│       ├── tools/          # 工具
+│       ├── workflows/      # 工作流
+│       └── index.ts        # Mastra 配置
+├── wrangler.toml          # Cloudflare Workers 配置
+└── package.json           # 项目依赖
 ```
 
 ## 🌐 访问服务
@@ -104,11 +69,9 @@ curl -X POST https://your-worker.your-subdomain.workers.dev/api/agent \
 
 如果遇到问题，请查看：
 1. [DEPLOYMENT.md](./DEPLOYMENT.md) - 详细部署说明
-2. Cloudflare Worker 控制台日志
-3. 使用 `wrangler tail` 查看实时日志
+2. Cloudflare Workers 控制台日志
 
 ## 📚 更多信息
 
 - [Mastra 文档](https://mastra.ai/)
-- [Cloudflare Workers 文档](https://developers.cloudflare.com/workers/)
-- [Wrangler CLI 文档](https://developers.cloudflare.com/workers/wrangler/) 
+- [Cloudflare Workers 文档](https://developers.cloudflare.com/workers/) 
