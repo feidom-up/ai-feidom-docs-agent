@@ -1,7 +1,6 @@
 
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
-import { LibSQLStore } from '@mastra/libsql';
 import { weatherWorkflow } from './workflows/weather-workflow';
 import { weatherAgent } from './agents/weather-agent';
 import { docsWorkflow } from './workflows/docs-workflow';
@@ -10,10 +9,6 @@ import { CloudflareDeployer } from "@mastra/deployer-cloudflare";
 export const mastra = new Mastra({
   workflows: { weatherWorkflow, docsWorkflow },
   agents: { weatherAgent, docsAgent },
-  storage: new LibSQLStore({
-    // For Cloudflare Workers, use memory storage or remote LibSQL database
-    url: ":memory:",
-  }),
   logger: new PinoLogger({
     name: 'Mastra',
     level: 'info',
