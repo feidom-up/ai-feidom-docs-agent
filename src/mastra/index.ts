@@ -28,18 +28,5 @@ export const mastra = new Mastra({
       },
     ],
     workerNamespace: "ai-feidom-docs-agent",
-    d1Databases: [
-      {
-        binding: "feidom-docs-agent-db",
-        database_name: "feidom-docs-agent",
-        database_id: "feidom-docs-agent",
-      },
-    ],
-    kvNamespaces: [
-      {
-        binding: "feidom-docs-agent-kv",
-        id: "feidom-docs-agent",
-      },
-    ],
   }),
 });
