@@ -11,8 +11,8 @@ export const mastra = new Mastra({
   workflows: { weatherWorkflow, docsWorkflow },
   agents: { weatherAgent, docsAgent },
   storage: new LibSQLStore({
-    // stores telemetry, evals, ... into memory storage, if it needs to persist, change to file:../mastra.db
-    url: ":memory:",
+    // For Cloudflare Workers, use memory storage or remote LibSQL database
+    url: "libsql://:memory:",
   }),
   logger: new PinoLogger({
     name: 'Mastra',
