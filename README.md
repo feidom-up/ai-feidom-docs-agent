@@ -15,7 +15,7 @@
 2. **配置构建设置**
    - **构建命令**: `npm run build`
    - **输出目录**: `.mastra/output`
-   - **入口文件**: `src/worker.js`
+   - **入口文件**: `.mastra/output/index.mjs`
 
 3. **设置环境变量**
    - `OPENAI_API_KEY`: OpenAI API 密钥
@@ -29,40 +29,75 @@
 ```
 ai-feidom-docs-agent/
 ├── src/
-│   ├── worker.js           # Cloudflare Workers 入口文件
 │   └── mastra/
-│       ├── agents/         # AI 代理
+│       ├── agents/         # AI 代理 (docsAgent, weatherAgent)
 │       ├── tools/          # 工具
-│       ├── workflows/      # 工作流
+│       ├── workflows/      # 工作流 (docsWorkflow, weatherWorkflow)
 │       └── index.ts        # Mastra 配置
-├── wrangler.toml          # Cloudflare Workers 配置
+├── .mastra/output/        # 构建输出目录
 └── package.json           # 项目依赖
 ```
 
 ## 🌐 访问服务
 
 部署成功后，你的服务将在以下地址可用：
-- `https://ai-feidom-docs-agent.your-subdomain.workers.dev`
+- `https://wf-bond.us`
 
 ## 📝 使用说明
 
-### 健康检查
+### API 路径概览
+
+#### 基础 API
+- `GET /api` - API 状态检查
+
+#### 代理 API
+- `GET /api/agents` - 获取所有代理
+- `GET /api/agents/{agentId}` - 获取特定代理
+- `POST /api/agents/{agentId}/generate` - 执行代理
+- `POST /api/agents/{agentId}/stream` - 流式执行代理
+
+#### 工作流 API
+- `GET /api/workflows` - 获取所有工作流
+- `GET /api/workflows/{workflowId}` - 获取特定工作流
+- `POST /api/workflows/{workflowId}/start` - 启动工作流
+- `POST /api/workflows/{workflowId}/stream` - 流式执行工作流
+
+#### 工具 API
+- `GET /api/tools` - 获取所有工具
+- `GET /api/tools/{toolId}` - 获取特定工具
+- `POST /api/tools/{toolId}/execute` - 执行工具
+
+### 使用示例
+
+#### API 状态检查
 ```bash
-curl https://your-worker.your-subdomain.workers.dev/health
+curl https://wf-bond.us/api
 ```
 
-### 运行工作流
+#### 运行工作流
 ```bash
-curl -X POST https://your-worker.your-subdomain.workers.dev/api/workflow \
+# 启动文档工作流
+curl -X POST https://wf-bond.us/api/workflows/docsWorkflow/start \
   -H "Content-Type: application/json" \
-  -d '{"workflowName": "docs-workflow", "input": {"url": "https://example.com"}}'
+  -d '{"input": {"url": "https://example.com"}}'
+
+# 启动天气工作流
+curl -X POST https://wf-bond.us/api/workflows/weatherWorkflow/start \
+  -H "Content-Type: application/json" \
+  -d '{"input": {"location": "Beijing"}}'
 ```
 
-### 运行代理
+#### 运行代理
 ```bash
-curl -X POST https://your-worker.your-subdomain.workers.dev/api/agent \
+# 执行文档代理
+curl -X POST https://wf-bond.us/api/agents/docsAgent/generate \
   -H "Content-Type: application/json" \
-  -d '{"agentName": "docsAgent", "input": {"message": "Hello"}}'
+  -d '{"input": {"message": "Hello"}}'
+
+# 执行天气代理
+curl -X POST https://wf-bond.us/api/agents/weatherAgent/generate \
+  -H "Content-Type: application/json" \
+  -d '{"input": {"message": "What is the weather?"}}'
 ```
 
 ## 🔍 故障排除
