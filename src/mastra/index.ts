@@ -23,5 +23,8 @@ export const mastra = new Mastra({
       },
     ],
     workerNamespace: "ai-feidom-docs-agent",
+    env: {
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    },
   }),
 });
