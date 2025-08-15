@@ -41,7 +41,7 @@ ai-feidom-docs-agent/
 ## 🌐 访问服务
 
 部署成功后，你的服务将在以下地址可用：
-- `https://wf-bond.us`
+- `{cf_worker_agent_url}`
 
 ## 📝 使用说明
 
@@ -69,20 +69,22 @@ ai-feidom-docs-agent/
 
 ### 使用示例
 
+> **注意**: 在以下示例中，请将 `{cf_worker_agent_url}` 替换为您实际的 Cloudflare Worker 部署地址。
+
 #### API 状态检查
 ```bash
-curl https://wf-bond.us/api
+curl {cf_worker_agent_url}/api
 ```
 
 #### 运行工作流
 ```bash
 # 启动文档工作流
-curl -X POST https://wf-bond.us/api/workflows/docsWorkflow/start \
+curl -X POST {cf_worker_agent_url}/api/workflows/docsWorkflow/start \
   -H "Content-Type: application/json" \
   -d '{"input": {"url": "https://example.com"}}'
 
 # 启动天气工作流
-curl -X POST https://wf-bond.us/api/workflows/weatherWorkflow/start \
+curl -X POST {cf_worker_agent_url}/api/workflows/weatherWorkflow/start \
   -H "Content-Type: application/json" \
   -d '{"input": {"location": "Beijing"}}'
 ```
@@ -90,14 +92,14 @@ curl -X POST https://wf-bond.us/api/workflows/weatherWorkflow/start \
 #### 运行代理
 ```bash
 # 执行文档代理
-curl -X POST https://wf-bond.us/api/agents/docsAgent/generate \
+curl -X POST {cf_worker_agent_url}/api/agents/docsAgent/generate \
   -H "Content-Type: application/json" \
-  -d '{"input": {"message": "Hello"}}'
+  -d '{"messages": "Please analyze this document"}'
 
 # 执行天气代理
-curl -X POST https://wf-bond.us/api/agents/weatherAgent/generate \
+curl -X POST {cf_worker_agent_url}/api/agents/weatherAgent/generate \
   -H "Content-Type: application/json" \
-  -d '{"input": {"message": "What is the weather?"}}'
+  -d '{"messages": "What is the weather?"}'
 ```
 
 ## 🔍 故障排除
